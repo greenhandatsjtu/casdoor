@@ -15,7 +15,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 
 	"github.com/astaxie/beego"
@@ -31,17 +30,14 @@ import (
 )
 
 func main() {
-	createDatabase := flag.Bool("createDatabase", false, "true if you need Casdoor to create database")
-	flag.Parse()
-
-	object.InitAdapter(*createDatabase)
+	object.InitAdapter()
 	object.InitDb()
 	object.InitDefaultStorageProvider()
 	object.InitLdapAutoSynchronizer()
 	proxy.InitHttpClient()
 	authz.InitAuthz()
 
-	util.SafeGoroutine(func() {object.RunSyncUsersJob()})
+	util.SafeGoroutine(func() { object.RunSyncUsersJob() })
 
 	//beego.DelStaticPath("/static")
 	beego.SetStaticPath("/static", "web/build/static")

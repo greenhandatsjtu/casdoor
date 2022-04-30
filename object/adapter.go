@@ -36,15 +36,13 @@ func InitConfig() {
 		panic(err)
 	}
 
-	InitAdapter(true)
+	InitAdapter()
 }
 
-func InitAdapter(createDatabase bool) {
+func InitAdapter() {
 
 	adapter = NewAdapter(conf.GetConfigString("driverName"), conf.GetBeegoConfDataSourceName(), conf.GetConfigString("dbName"))
-	if createDatabase {
-		adapter.CreateDatabase()
-	}
+	adapter.CreateDatabase()
 	adapter.createTable()
 }
 

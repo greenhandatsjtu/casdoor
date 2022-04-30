@@ -82,13 +82,7 @@ Edit `conf/app.conf`, modify `dataSourceName` to correct database info, which fo
 username:password@tcp(database_ip:database_port)/
 ```
 
-Then create an empty schema (database) named `casdoor` in your relational database. After the program runs for the first time, it will automatically create tables in this schema.
-
-You can also edit `main.go`, modify `false` to `true`. It will automatically create the schema (database) named `casdoor` in this database.
-
-```bash
-createDatabase := flag.Bool("createDatabase", false, "true if you need casdoor to create database")
-```
+You don't have to create schema (database) manually, casdoor will automatically create a schema (database) named `casdoor` and create tables in this schema when it runs for the first time.
 
 #### Run
 
