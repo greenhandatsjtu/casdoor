@@ -128,15 +128,18 @@ func UpdateOrganization(id string, organization *Organization) bool {
 		}
 	}
 
-	if organization.MasterPassword != "" {
+	if organization.MasterPassword != "" && organization.MasterPassword != "***" {
 		credManager := cred.GetCredManager(organization.PasswordType)
 		if credManager != nil {
 			hashedPassword := credManager.GetHashedPassword(organization.MasterPassword, "", organization.PasswordSalt)
 			organization.MasterPassword = hashedPassword
 		}
 	}
-
-	affected, err := adapter.Engine.ID(core.PK{owner, name}).AllCols().Update(organization)
+	session := adapter.Engine.ID(core.PK{owner, name}).AllCols()
+	if organization.MasterPassword == "***" {
+		session.Omit("master_password")
+	}
+	affected, err := session.Update(organization)
 	if err != nil {
 		panic(err)
 	}
